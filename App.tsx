@@ -8,7 +8,7 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import { Dashboard } from "./src/screens";
+import { Register } from "./src/screens";
 
 import { theme } from "./src/global/styles";
 
@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Dashboard />
+      <Register />
     </ThemeProvider>
   );
 }
