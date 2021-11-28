@@ -14,6 +14,7 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import { AppRoutes } from "./src/routes";
+import { SignIn } from "./src/screens";
 
 import { theme } from "./src/global/styles";
 
@@ -30,7 +31,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <StatusBar barStyle="light-content" />
-        <AppRoutes />
+        <SignIn />
       </NavigationContainer>
     </ThemeProvider>
   );
