@@ -20,6 +20,7 @@
     "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "~1.1.0",
     "expo-updates": "~0.10.13",
+    "intl": "^1.2.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^7.20.2",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/intl": "^1.2.0",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "@types/styled-components-react-native": "^5.1.3",
