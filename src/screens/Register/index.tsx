@@ -3,6 +3,13 @@ import { Keyboard, Modal, TouchableWithoutFeedback, Alert } from "react-native";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
+import {
+  useNavigation,
+  NavigationProp,
+  ParamListBase,
+} from "@react-navigation/native";
 
 import { CategorySelect } from "../CategorySelect";
 
@@ -40,15 +47,18 @@ export function Register() {
     name: "Categoria",
   });
 
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
+
   const {
     control,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  function handleTransactionTypeSelect(type: "up" | "down") {
+  function handleTransactionTypeSelect(type: "positive" | "negative") {
     setTransactionType(type);
   }
 
@@ -60,24 +70,46 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
-  function handleRegister(form: FormData) {
+  async function handleRegister(form: FormData) {
     if (!transactionType) return Alert.alert("Selecione o tipo da transação");
 
     if (category.key === "category")
       return Alert.alert("Selecione a categoria");
 
-    const data = {
+    const newTransaction = {
+      id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
-      transactionType,
+      type: transactionType,
       category: category.key,
+      date: new Date(),
     };
 
-    console.log(data);
+    try {
+      const dataKey = "@gofinances:transactions";
+      const data = await AsyncStorage.getItem(dataKey);
+      const currentData = data ? JSON.parse(data) : [];
+
+      const dataFormatted = [...currentData, newTransaction];
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+
+      reset();
+      setTransactionType("");
+      setCategory({ key: "category", name: "Categoria" });
+
+      navigation.navigate("Listagem");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possível salvar");
+    }
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss()}
+      touchSoundDisabled
+    >
       <S.Container>
         <S.Header>
           <S.Title>Cadastro</S.Title>
@@ -105,14 +137,14 @@ export function Register() {
               <TransactionTypeButton
                 type="up"
                 title="Entrada"
-                isActive={transactionType === "up"}
-                onPress={() => handleTransactionTypeSelect("up")}
+                isActive={transactionType === "positive"}
+                onPress={() => handleTransactionTypeSelect("positive")}
               />
               <TransactionTypeButton
                 type="down"
                 title="Saída"
-                isActive={transactionType === "down"}
-                onPress={() => handleTransactionTypeSelect("down")}
+                isActive={transactionType === "negative"}
+                onPress={() => handleTransactionTypeSelect("negative")}
               />
             </S.TransactionsTypes>
 
