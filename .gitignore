@@ -56,3 +56,6 @@ dist/
 
 # Env variables
 .env
+
+# Jest
+coverage
