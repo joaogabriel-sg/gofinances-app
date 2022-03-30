@@ -7,14 +7,27 @@
     "slug": "gofinances",
     "scheme": "gofinances",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#5636D3"
+    },
     "ios": {
       "bundleIdentifier": "com.gofinances",
       "buildNumber": "1.0.0"
     },
     "android": {
       "package": "com.gofinances",
-      "versionCode": 1
-    }
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#5636D3"
+      }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/joaogabriel-sg/gofinances-app"
   }
 }
